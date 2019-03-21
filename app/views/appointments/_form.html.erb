@@ -1,3 +1,11 @@
+<div class="container-fluid total expenses-container">
+  <div class="row justify-content-center">
+    <div class="col-xs-12 col-md-10">
+      <div class="card">
+        <div class="card-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
 <%= form_with(model: appointment, local: true) do |form| %>
   <% if appointment.errors.any? %>
     <div id="error_explanation">
@@ -13,7 +21,7 @@
 
   <div class="field">
     <%= form.label :date %>
-    <%= form.text_field :date %>
+    <%= form.text_field :date, class: "datepicker" %>
   </div>
 
   <div class="field">
@@ -31,3 +39,35 @@
     <%= form.submit %>
   </div>
 <% end %>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var datepicker = $('.datepicker').datetimepicker(
+          { 
+            format: 'YYYY/MM/DD',
+            icons:
+            {
+              time: 'fa fa-clock-o',
+              date: 'fa fa-calendar',
+              up: 'fa fa-chevron-up',
+              down: 'fa fa-chevron-down',
+              previous: 'fa fa-chevron-left',
+              next: 'fa fa-chevron-right',
+              today: 'fa fa-calendar-check-o',
+              clear: 'fa fa-trash-o',
+              close: 'fa fa-close'
+            }
+          }
+        );
+  datepicker.css({
+    width: '10rem'
+  });
+</script>
