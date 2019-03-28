@@ -21,12 +21,11 @@
 
   <div class="field">
     <%= form.label :date %>
-    <%= form.text_field :date, class: "datepicker" %>
+    <%= form.text_field :date, class: "datepicker", onBlur: "changeStarttimes();" %>
   </div>
-
   <div class="field">
     <%= form.label :starttime %>
-    <%= form.number_field :starttime %>
+    <%= form.select(:starttime, 9.upto(18).each.collect { |m| [m, m] }, :prompt => 'Select') %>
   </div>
 
   <div class="field">
@@ -70,4 +69,28 @@
   datepicker.css({
     width: '10rem'
   });
+
+
+  function changeStarttimes() {
+      date_select = document.getElementById('appointment_date')
+      starttime_select = document.getElementById('appointment_starttime')
+      console.log("changeStarttimes");
+      let date_first_value = $('option', starttime_select)[0];
+      $('option', starttime_select).remove();
+      $(starttime_select).append(date_first_value);
+      $.get({
+        url: '/api/availablestarttime/'+date_select.value.replace(/\//g, '-'),
+        dataType: 'json'
+      })
+      .done(function(json) {
+        json.forEach((e) => {
+          $(starttime_select).append(new Option(e, e));
+        });
+        console.log(
+          "done:"+date_select.value.replace(/\//g, '-')+"with:"+json
+          );
+      })
+      .fail(function(error) { console.log(error) });
+  }
+
 </script>
